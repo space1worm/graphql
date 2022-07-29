@@ -71,6 +71,7 @@ const products = [
     },
     {
         id: "b553085a-a7e0-4c9b-8a12-f971919c3683",
+        categoryId: "d914aec0-25b2-4103-9ed8-225d39018d1d",
         name: "Baseball Gloves",
         description: "Professional catcher gloves",
         quantity: 745,
@@ -80,6 +81,7 @@ const products = [
     },
     {
         id: "47bf3941-9c8b-42c0-9c72-7f3985492a5b",
+        categoryId: "d914aec0-25b2-4103-9ed8-225d39018d1d",
         name: "Soccer Ball",
         description: "Round ball",
         quantity: 734,
