@@ -2,14 +2,14 @@ const { ApolloServer, gql } = require("apollo-server");
 
 const typeDefs = gql`
     type Query {
-        hello: String
+        arrayOfStrings: [String!]! #return array of strings! and can't be null
     }
 `;
 
 const resolvers = {
     Query: {
-        hello: () => {
-            return "hello";
+        arrayOfStrings: () => {
+            return ["1", "2", "3"];
         },
     },
 };
