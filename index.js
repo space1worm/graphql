@@ -7,6 +7,8 @@ const typeDefs = gql`
         arrayOfStrings: [String!]! #return array of strings! and can't be null
         products: [Product!]!
         product(id: String!): Product
+        categories: [Category!]!
+        category(id: ID!): Category
     }
 
     type Product {
@@ -17,6 +19,11 @@ const typeDefs = gql`
         image: String!
         price: Float!
         onSale: Boolean!
+    }
+
+    type Category {
+        id: ID!
+        name: String!
     }
 `;
 
@@ -32,6 +39,14 @@ const resolvers = {
             const { id } = args;
 
             return products.find((product) => product.id === id);
+        },
+        categories: (parent, args, context) => {
+            return categories;
+        },
+        category: (parent, args, context) => {
+            const { id } = args;
+
+            return categories.find((category) => category.id === id);
         },
     },
 };
