@@ -1,77 +1,28 @@
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer } = require("apollo-server");
 
-const { products, categories, reviews } = require("./data");
+// temp DB
+const { products, categories, reviews } = require("./db");
 
-const typeDefs = gql`
-    type Query {
-        arrayOfStrings: [String!]! #return array of strings! and can't be null
-        products: [Product!]!
-        product(id: String!): Product
-        categories: [Category!]!
-        category(id: ID!): Category
-    }
+// Type Defs
+const { typeDefs } = require("./schema");
 
-    type Product {
-        id: ID!
-        name: String!
-        description: String!
-        quantity: Int!
-        image: String!
-        price: Float!
-        onSale: Boolean!
-        category: Category
-    }
-
-    type Category {
-        id: ID!
-        name: String!
-        products: [Product!]
-    }
-`;
-
-const resolvers = {
-    Query: {
-        arrayOfStrings: () => {
-            return ["1", "2", "3"];
-        },
-        products: () => {
-            return products;
-        },
-        product: (parent, args, context) => {
-            const { id } = args;
-
-            return products.find((product) => product.id === id);
-        },
-        categories: (parent, args, context) => {
-            return categories;
-        },
-        category: (parent, args, context) => {
-            const { id } = args;
-
-            return categories.find((category) => category.id === id);
-        },
-    },
-
-    Category: {
-        products: (parent, args, context) => {
-            const { id } = parent;
-
-            return products.filter((product) => product.categoryId === id);
-        },
-    },
-
-    Product: {
-        category: (parent, args, context) => {
-            const { categoryId } = parent;
-
-            return categories.find((category) => category.id === categoryId);
-        },
-    },
-};
+// Resolvers
+const { Query } = require("./resolvers/Query");
+const { Category } = require("./resolvers/Category");
+const { Product } = require("./resolvers/Product");
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers,
+    resolvers: {
+        Query,
+        Category,
+        Product,
+    },
+    context: {
+        products: products,
+        categories: categories,
+        reviews: reviews,
+    },
 });
 
 const port = process.env.PORT || 4040;
